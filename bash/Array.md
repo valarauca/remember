@@ -37,4 +37,4 @@ function my_function() {
 
 # array slicing
 
-TODO
+[see this link](https://gist.github.com/steakknife/8294792)
