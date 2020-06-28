@@ -35,6 +35,20 @@ function my_function() {
 }
 ```
 
+# Multi-line String into Array
+
+The normal method to accomplish this is `mapfile`/`readarray`. 
+
+The problem is this involves a bit of trickery. You need to use:
+
+```bash
+shopt -s lastpipe
+```
+
+As the the new variable created with the `mapfile`/`readarray`
+builtin only exists for the scope of the command, which isn't
+actually useful
+
 # array slicing
 
 [see this link](https://gist.github.com/steakknife/8294792)
