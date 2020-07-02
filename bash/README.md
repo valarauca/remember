@@ -11,3 +11,4 @@ Bash
 * [Handling Shell Array](https://github.com/valarauca/remember/blob/master/bash/Array.md)
 * [Handling Whitespace](https://github.com/valarauca/remember/blob/master/bash/Whitespace.md)
 * [Check if something is installed](https://github.com/valarauca/remember/blob/master/bash/IsInstalled.md)
+* [Suffix & Prefix](https://github.com/valarauca/remember/blob/master/bash/SuffixPrefix.md)
