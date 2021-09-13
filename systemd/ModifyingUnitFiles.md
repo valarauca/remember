@@ -85,3 +85,14 @@ function modify_unit_files() {
   fi
 }
 ```
+
+
+### CLI & Sudo example
+
+
+```bash
+
+script -qfc "systemctl cat '${deamon}' | sed -e '${sed_command(s)}' | sudo SYSTEMD_EDITOR=tee systemctl edit '${daemon}' --force --full" /dev/null
+systemctl reenable "${daemon}"
+systemctl daemon-reload
+```
