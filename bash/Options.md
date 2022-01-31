@@ -39,54 +39,43 @@ which depend on non-zero return codes
 
 ```bash
 # this function will take any number of args
-# and it will execute them without `e`, `x`, `v`
+# and it will execute them without `e`, `x`, `v`, and `pipefail`
 # then store those options,
-# and return what ever `rc` the orginal command
+# and return whatever `rc` the original command
 # would've used.
 function exec_without_debugging() {
-
-  # capture all args
-  local -a ARGS=()
-  for arg in "$@"; do
-    ARGS+=( "${arg}" )
-  done
-
-  # nothing to do no args passed
-  if [[ ${#ARGS[@]} -le 0 ]]; then
-    return 0;
-  fi
 
   # save old shell args
   local old_args="$-"
 
   # arrays for removing & redeclaring args
-  declare -a regexes=( "*e*" "*x*" "*v*" )
-  declare -a unset=( "+e"  "+x"  "+v" )
-  declare -a set=( "-e" -x" "-v")
-
-  # save the return code
-  local -i rc=0
+  declare -a regexes=( "*e*" "*x*" "*v*" "*pipefail*" )
+  declare -a unset=( "+e"  "+x"  "+v" "+opipefile" )
+  declare -a set=( "-e" -x" "-v" "-opipefail" )
 
   # clear the environment
-  for (( i = 0 ; i < 3 ; i++)); do
+  for (( i = 0 ; i < ${#regexes[@]}; i++)); do
     if [[ "${old_args}" =~ ${regexes[$i]} ]]; then
       set "${unset[$i]}"
     fi
   done
+  
+  # save the return code
+  local -i rc=0
 
   # run the command
   # in the same process
   # using the existing IO
-  exec "${ARGS[@]}"
+  exec "$@"
   rc=$?
 
   # restore the environment
-  for (( i = 0; i < 3; i++)); do
+  for (( i = 0; i < ${#regexes[@]}; i++)); do
     if [[ "${old_args}" =~ ${regexes[$i]} ]]; then
       set "${set[$i]}"
     fi
   done
 
-  return $? 
+  return $rc
 }
 ```
